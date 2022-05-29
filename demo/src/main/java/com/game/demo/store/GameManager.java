@@ -1,7 +1,6 @@
 package com.game.demo.store;
 
 
-import java.io.IOException;
 import java.util.HashMap;
 
 import com.game.demo.store.Actions.Action;
@@ -30,7 +29,8 @@ public class GameManager {
 
     private void initialize(){
         
-        gameContext = new GameContext();
+        gameContext = new GameContext(2, "sharpener");
+
         stateManager = new StateManager();
 		setStateManager(stateManager);
         handlerManager = stateManager.getEventHandlerManager();
@@ -50,13 +50,9 @@ public class GameManager {
             try {
                 //game executions are given to action by callback function aspect; by doing so, game execution descriptions are done independent from actions.
                 gameContext.checkGuessWord();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            if(gameContext.getGuessCount() <= 0){  
-                //action failed              
+            } catch (Exception e) {
                 return new ActionResult(false);
-            } 
+            }
             //action success           
             return new ActionResult();
         });
@@ -72,7 +68,7 @@ public class GameManager {
         }));
 
         handlerManager.registerEventsAndHandlers(new GuessActionFailedEventHandler(() -> {
-            stateManager.setCurrentState(stateManager.getState("GameOverState"));
+            System.out.println("An error occured, please try again.");
       }));
     }
 

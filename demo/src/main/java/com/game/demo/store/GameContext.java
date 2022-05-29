@@ -1,7 +1,6 @@
 package com.game.demo.store;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.CharacterIterator;
 import java.text.StringCharacterIterator;
@@ -10,26 +9,35 @@ import java.util.HashSet;
 
 public class GameContext {
 
-    private String word = "sharpener";
-    private int guessCount = 20;
+    private final String word;
+    private final int initialGuessCount;
+    private int guessCount;
     private int correctlyGuessedWordLength = 0;
+
+    public GameContext(int guessCount, String word){
+        this.initialGuessCount = guessCount;
+        this.guessCount = guessCount;
+        this.word = word;
+    }
+
+    public GameContext(){
+        this(20, "sharpener");
+    }
 
     public String getWord() {
         return word;
     }
-    public void setWord(String word) {
-        this.word = word;
-    }
+
     public int getGuessCount() {
         return guessCount;
     }
     public int getCorrectlyGuessedWordLength() {
         return correctlyGuessedWordLength;
     }
+    
+    public void checkGuessWord() throws Exception {
 
-    public void checkGuessWord() throws IOException {
-
-        if(guessCount < 20) 
+        if(guessCount < initialGuessCount) 
           System.out.println("You have " + guessCount + " attempts left.");
 
         System.out.print("Enter guess word (" + guessCount + "): ");
